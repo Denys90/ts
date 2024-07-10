@@ -269,8 +269,9 @@ class Form extends Component<{}, FormState> {
             <option value="" disabled>
               Select an options
             </option>
-            <option value="option1">Front-end Developer</option>
-            <option value="option2">Back-end Developer</option>
+            <option value="I will be Front-end Developer">I will be Front-end Developer</option>
+            <option value="I will be Back-end Developer">I will be Back-end Developer</option>
+            <option value="I will be Full-stack Developer">I will be Full-stack Developer</option>
           </select>
 
           <button type="submit" onClick={this.handleShow}>
