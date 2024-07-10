@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import "./App.css";
+import ReactDOM from "react-dom";
 
 // interface TitleProps {
 //   title: string;
@@ -159,135 +158,182 @@ import "./App.css";
 
 // -------------------------------------------------------------------
 
-interface Positions {
-  id: string;
-  value: string;
-  title: string;
+// interface Positions {
+//   id: string;
+//   value: string;
+//   title: string;
+// }
+
+// interface FormState {
+//   inputText: string;
+//   textAreaText: string;
+//   selectText: string;
+//   showData: {
+//     name: string;
+//     text: string;
+//     position: string;
+//   };
+// }
+
+// const POSITIONS: Array<Positions> = [
+//   {
+//     id: "fd",
+//     value: "Front-end Developer",
+//     title: "Front-end Developer",
+//   },
+//   {
+//     id: "bd",
+//     value: "Front-end Developer",
+//     title: "Front-end Developer",
+//   },
+// ];
+
+// const DEFAULT_SELECT_VALUE: string = POSITIONS[0].value;
+// const styles: React.CSSProperties = { display: "block", marginBottom: "10px" };
+
+// class Form extends Component<{}, FormState> {
+//   state = {
+//     inputText: "",
+//     textAreaText: "",
+//     selectText: DEFAULT_SELECT_VALUE,
+//     showData: {
+//       name: "",
+//       text: "",
+//       position: "",
+//     },
+//   };
+
+//   private rootRef = React.createRef<HTMLSelectElement>();
+
+//   hadbleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+//     const {
+//       target: { value: inputText },
+//     } = e;
+//     this.setState({ inputText });
+//   };
+
+//   handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+//     const {
+//       target: { value: textAreaText },
+//     } = e;
+//     this.setState({ textAreaText });
+//   };
+
+//   handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+//     const {
+//       target: { value: selectText },
+//     } = e;
+//     this.setState({ selectText });
+//   };
+
+//   handleShow = (e: React.MouseEvent<HTMLButtonElement>): void => {
+//     e.preventDefault();
+//     const { inputText, textAreaText, selectText } = this.state;
+
+//     this.setState({
+//       inputText: "",
+//       textAreaText: "",
+//       selectText: DEFAULT_SELECT_VALUE,
+//       showData: {
+//         name: inputText,
+//         text: textAreaText,
+//         position: selectText,
+//       },
+//     });
+//   };
+
+//   render() {
+//     const { inputText, textAreaText, selectText, showData } = this.state;
+//     const { name, text, position } = showData;
+
+//     return (
+//       <>
+//         <form>
+//           <label style={styles}>
+//             Name:
+//             <input type="text" value={inputText} onChange={this.hadbleInputChange} />
+//           </label>
+
+//           <label style={styles}>
+//             Text:
+//             <textarea value={textAreaText} onChange={this.handleTextAreaChange}></textarea>
+//           </label>
+
+//           <select
+//             style={styles}
+//             value={selectText}
+//             onChange={this.handleSelectChange}
+//             ref={this.rootRef}
+//           >
+//             <option value="" disabled>
+//               Select an options
+//             </option>
+//             <option value="I will be Front-end Developer">I will be Front-end Developer</option>
+//             <option value="I will be Back-end Developer">I will be Back-end Developer</option>
+//             <option value="I will be Full-stack Developer">I will be Full-stack Developer</option>
+//           </select>
+
+//           <button type="submit" onClick={this.handleShow}>
+//             Button
+//           </button>
+//           <ul>
+//             <li>{name}</li>
+//             <li>{text}</li>
+//             <li>{position}</li>
+//           </ul>
+//         </form>
+//       </>
+//     );
+//   }
+// }
+// const App: React.FC = () => <Form />;
+
+// export default App;
+
+// -------------------------------------------------------------------
+
+interface PrtalProps {
+  children: React.ReactNode;
 }
 
-interface FormState {
-  inputText: string;
-  textAreaText: string;
-  selectText: string;
-  showData: {
-    name: string;
-    text: string;
-    position: string;
-  };
-}
+class Portal extends Component<PrtalProps> {
+  private el: HTMLDivElement = document.createElement("div");
 
-const POSITIONS: Array<Positions> = [
-  {
-    id: "fd",
-    value: "Front-end Developer",
-    title: "Front-end Developer",
-  },
-  {
-    id: "bd",
-    value: "Front-end Developer",
-    title: "Front-end Developer",
-  },
-];
+  public componentDidMount(): void {
+    document.body.appendChild(this.el);
+  }
 
-const DEFAULT_SELECT_VALUE: string = POSITIONS[0].value;
-const styles: React.CSSProperties = { display: "block", marginBottom: "10px" };
+  public componentWillUnmount(): void {
+    document.body.removeChild(this.el);
+  }
 
-class Form extends Component<{}, FormState> {
-  state = {
-    inputText: "",
-    textAreaText: "",
-    selectText: DEFAULT_SELECT_VALUE,
-    showData: {
-      name: "",
-      text: "",
-      position: "",
-    },
-  };
-
-  private rootRef = React.createRef<HTMLSelectElement>();
-
-  hadbleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const {
-      target: { value: inputText },
-    } = e;
-    this.setState({ inputText });
-  };
-
-  handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    const {
-      target: { value: textAreaText },
-    } = e;
-    this.setState({ textAreaText });
-  };
-
-  handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const {
-      target: { value: selectText },
-    } = e;
-    this.setState({ selectText });
-  };
-
-  handleShow = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.preventDefault();
-    const { inputText, textAreaText, selectText } = this.state;
-
-    this.setState({
-      inputText: "",
-      textAreaText: "",
-      selectText: DEFAULT_SELECT_VALUE,
-      showData: {
-        name: inputText,
-        text: textAreaText,
-        position: selectText,
-      },
-    });
-  };
-
-  render() {
-    const { inputText, textAreaText, selectText, showData } = this.state;
-    const { name, text, position } = showData;
-
-    return (
-      <>
-        <form>
-          <label style={styles}>
-            Name:
-            <input type="text" value={inputText} onChange={this.hadbleInputChange} />
-          </label>
-
-          <label style={styles}>
-            Text:
-            <textarea value={textAreaText} onChange={this.handleTextAreaChange}></textarea>
-          </label>
-
-          <select
-            style={styles}
-            value={selectText}
-            onChange={this.handleSelectChange}
-            ref={this.rootRef}
-          >
-            <option value="" disabled>
-              Select an options
-            </option>
-            <option value="I will be Front-end Developer">I will be Front-end Developer</option>
-            <option value="I will be Back-end Developer">I will be Back-end Developer</option>
-            <option value="I will be Full-stack Developer">I will be Full-stack Developer</option>
-          </select>
-
-          <button type="submit" onClick={this.handleShow}>
-            Button
-          </button>
-          <ul>
-            <li>{name}</li>
-            <li>{text}</li>
-            <li>{position}</li>
-          </ul>
-        </form>
-      </>
-    );
+  public render(): React.ReactElement<PrtalProps> {
+    return ReactDOM.createPortal(this.props.children, this.el);
   }
 }
 
-const App: React.FC = () => <Form />;
+class MyComponent extends Component<{}, { count: number }> {
+  state = {
+    count: 0,
+  };
 
+  handleClick = () => {
+    this.setState(({ count }) => ({
+      count: ++count,
+    }));
+  };
+
+  render() {
+    return (
+      <div onClick={this.handleClick}>
+        <h1>Clicks: {this.state.count}</h1>
+        <Portal>
+          <h2>TEST PORTAL</h2>
+          <button>Click</button>
+        </Portal>
+      </div>
+    );
+  }
+}
+const App: React.FC = () => <MyComponent />;
 export default App;
