@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from "react";
+// import ReactDOM from "react-dom";
+// import { createContext } from "vm";
 
 // interface TitleProps {
 //   title: string;
@@ -340,57 +341,163 @@ import ReactDOM from "react-dom";
 
 // -------------------------------------------------------------------
 
-interface IContext {
-  isAuth: boolean;
-  toggleAuth: () => void;
-}
+// interface IContext {
+//   isAuth: boolean;
+//   toggleAuth: () => void;
+// }
 
-const AuthContext = React.createContext<IContext>({
-  isAuth: false,
-  toggleAuth: () => {},
-});
+// const AuthContext = React.createContext<IContext>({
+//   isAuth: false,
+//   toggleAuth: () => {},
+// });
 
-// new syntex of static property
-class Login extends Component {
-  static contextType = AuthContext;
-  context!: React.ContextType<typeof AuthContext>;
+// // new syntex of static property
+// class Login extends Component {
+//   static contextType = AuthContext;
+//   context!: React.ContextType<typeof AuthContext>;
 
-  render() {
-    const { toggleAuth, isAuth } = this.context;
+//   render() {
+//     const { toggleAuth, isAuth } = this.context;
 
-    return <button onClick={toggleAuth}>{!isAuth ? "Login" : "Logout"}</button>;
-  }
-}
+//     return <button onClick={toggleAuth}>{!isAuth ? "Login" : "Logout"}</button>;
+//   }
+// }
 
-// old variant with Consumer
-const Profile: React.FC = (): React.ReactElement => (
-  <AuthContext.Consumer>
-    {({ isAuth }: IContext) => <h1>{!isAuth ? "Please log in" : "You are logged in"}</h1>}
-  </AuthContext.Consumer>
-);
+// // old variant with Consumer
+// const Profile: React.FC = (): React.ReactElement => (
+//   <AuthContext.Consumer>
+//     {({ isAuth }: IContext) => <h1>{!isAuth ? "Please log in" : "You are logged in"}</h1>}
+//   </AuthContext.Consumer>
+// );
 
-// Root component
-class Context extends Component<{}, { isAuth: boolean }> {
-  readonly state = {
-    isAuth: false,
-  };
+// // Root component
+// class Context extends Component<{}, { isAuth: boolean }> {
+//   readonly state = {
+//     isAuth: false,
+//   };
 
-  toggleAuth = () => {
-    this.setState(({ isAuth }) => ({ isAuth: !isAuth }));
-  };
+//   toggleAuth = () => {
+//     this.setState(({ isAuth }) => ({ isAuth: !isAuth }));
+//   };
 
-  render() {
-    const { isAuth } = this.state;
-    const context: IContext = { isAuth, toggleAuth: this.toggleAuth };
+//   render() {
+//     const { isAuth } = this.state;
+//     const context: IContext = { isAuth, toggleAuth: this.toggleAuth };
 
-    return (
-      <AuthContext.Provider value={context}>
-        <Login />
-        <Profile />
-      </AuthContext.Provider>
-    );
-  }
-}
+//     return (
+//       <AuthContext.Provider value={context}>
+//         <Login />
+//         <Profile />
+//       </AuthContext.Provider>
+//     );
+//   }
+// }
 
-const App: React.FC = () => <Context />;
-export default App;
+// const App: React.FC = () => <Context />;
+// export default App;
+
+// ---------------------------useState-------------------------------
+// const [value, setValue] = useState<number | undefined>(undefined);
+// const [value, setValue] = useState<Array<number>>([]);
+
+// interface IUser {
+//   name: string;
+//   age?: number;
+// }
+
+// const [user, setUser] = useState<IUser>({ name: "Denys" });
+
+// // ------------------------useRef-----------------------------------
+
+// const ref1 = useRef<HTMLElement>(null!);
+// const ref1 = useRef<HTMLElement | null>(null);
+
+// ------------------------useContext-----------------------------------
+
+// interface ITheme {
+//   backgroundColor: string;
+//   color: string;
+// }
+
+// // Context creation
+// const ThemeContext = createContext<ITheme>({
+//   backgroundColor: "black",
+//   color: "white",
+// });
+
+// // Accessing context in a child component
+// const ThemeContext = useContext<ITheme>(ThemeContext);
+
+// ------------------------useReducer-----------------------------------
+
+// interface State {
+//   count: number;
+// }
+
+// type Action = { type: "increment" | "decrement" };
+
+// const counterReducer = ({ count }: State, { type }: Action) => {
+//   switch (type) {
+//     case "increment":
+//       return { count: count + 1 };
+//     case "decrement":
+//       return { count: count - 1 };
+
+//     default:
+//       return {};
+//   }
+// };
+
+// const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+
+// dispatch({ type: "increnemt" });
+// dispatch({ type: "decrement" });
+
+// ------------------------Components of higher order-----------------------------------
+
+// interface BaseProps {
+//   primTitle: string;
+//   secTitle: string;
+// }
+
+// interface InjectedProps {
+//   toggleStatus: Boolean;
+//   toggle: () => void;
+// }
+
+// const Button = ({ primTitle, secTitle, toggle, toggleStatus }: any) => (
+//   <button onClick={toggle}>{toggleStatus ? primTitle : secTitle}</button>
+// );
+
+// const withToggle = <BaseProps extends InjectedProps>(
+//   PassedComponent: React.ComponentType<BaseProps>
+// ) => {
+//   return (props: BaseProps) => {
+//     const [toggleStatus, toggle] = useState(false);
+
+//     return (
+//       <PassedComponent
+//         {...(props as BaseProps)}
+//         toggle={() => toggle(!toggleStatus)}
+//         toggleStatus={toggleStatus}
+//       />
+//     );
+//   };
+// };
+
+// const ToggleButton = withToggle(Button);
+// const App: React.FC = () => <ToggleButton primTitle="Maint Title" secTitle="Additional Title" />;
+// export default App;
+// // -----------------------------------Spinner-------------------------------------------
+
+// interface WithLoadingProps {
+//   loading: Boolean;
+// }
+
+// const withLoading = <P extends object>(Component: React.ComponentType<P>) =>
+//   class withLoading extends React.Component<P & WithLoadingProps> {
+//     render() {
+//       const { loading, ...props } = this.props;
+//       return loading ? <LoadingSpinner /> : <Component {...props} />;
+//     }
+//   };
